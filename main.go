@@ -44,7 +44,7 @@ const (
 func main() {
 	flaggy.SetName("url-monitor")
 	flaggy.SetDescription("Monitors URLs for patterns, and alerts by SMS.")
-	flaggy.SetVersion("0.1.0-dev")
+	flaggy.SetVersion("0.1.0")
 
 	var configurationFile = "configuration.yaml"
 	flaggy.String(&configurationFile, "c", "configuration-file", "YAML configuration file defining URLs to monitor")
