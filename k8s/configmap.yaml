@@ -1,0 +1,22 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: url-monitor
+data:
+  configuration.yaml: |
+  ---
+  twilio:
+    accountSid: "myAccountSid"
+    authToken: "myAuthToken"
+    fromPhoneNumber: "+15555555555"
+    toPhoneNumber: "+15555555555"
+  urls:
+  - description: "Google doesn't say google"
+    url: "https://google.com"
+    pattern: "google"
+    alertIf: "NoMatch"
+  - description: "Google says google"
+    url: "https://google.com"
+    pattern: "google"
+    alertIf: "Match"

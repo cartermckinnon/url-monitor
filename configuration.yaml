@@ -9,7 +9,7 @@ urls:
     url: "https://google.com"
     pattern: "google"
     alertIf: "NoMatch"
-  - description "Google says google"
+  - description: "Google says google"
     url: "https://google.com"
     pattern: "google"
     alertIf: "Match"

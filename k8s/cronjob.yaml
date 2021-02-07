@@ -1,0 +1,27 @@
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: url-monitor
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: url-monitor
+            image: mckdev/url-monitor
+            args:
+            - "--configuration-file=/app/configuration.yaml"
+            volumeMounts:
+            - name: configuration
+              mountPath: "/app/"
+              readOnly: true
+          volumes:
+          - name: configuration
+            configMap:
+              name: url-monitor
+              items:
+              - key: "configuration.yaml"
+                path: "configuration.yaml"

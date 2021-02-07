@@ -128,10 +128,11 @@ func monitorURL(urlConfiguration *URLConfiguration, twilioConfiguration *TwilioC
 
 // sendSMS uses the Twilio HTTP API to send an SMS alert for one URL
 func sendSMS(urlConfiguration *URLConfiguration, twilioConfiguration *TwilioConfiguration) {
+	smsBody := smsBody(urlConfiguration)
 	msgData := url.Values{}
 	msgData.Set("To", twilioConfiguration.ToPhoneNumber)
 	msgData.Set("From", twilioConfiguration.FromPhoneNumber)
-	msgData.Set("Body", smsBody(urlConfiguration))
+	msgData.Set("Body", smsBody)
 	msgDataReader := *strings.NewReader(msgData.Encode())
 	client := &http.Client{}
 	urlStr := "https://api.twilio.com/2010-04-01/Accounts/" + twilioConfiguration.AccountSID + "/Messages.json"
@@ -145,7 +146,9 @@ func sendSMS(urlConfiguration *URLConfiguration, twilioConfiguration *TwilioConf
 		decoder := json.NewDecoder(resp.Body)
 		err := decoder.Decode(&data)
 		if err == nil {
-			fmt.Println(data["sid"])
+			fmt.Println(smsBody)
+		} else {
+			println(err)
 		}
 	} else {
 		fmt.Println(resp.Status)
