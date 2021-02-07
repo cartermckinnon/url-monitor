@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# This script is executed by Docker Hub after the build process completes.
+# It is used to add the 'latest' tag to non-snapshot images.
+# See: https://windsock.io/automated-docker-image-builds-with-multiple-tags/
+
+set -ex
+
+# get repo and tag from image name
+TAG_START=$(expr index "$IMAGE_NAME" :)
+REPO=${IMAGE_NAME:0:TAG_START-1}
+TAG=${IMAGE_NAME:TAG_START}
+
+# release tags look like '0.1.0'
+RELEASE_TAG_PATTERN='^[0-9.]+$'
+
+# add the 'latest' tag if a release was just built
+if [[ "$TAG" =~ $RELEASE_TAG_PATTERN ]]
+then
+    docker tag $IMAGE_NAME $REPO:latest
+    docker push $REPO:latest
+fi
